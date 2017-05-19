@@ -37,10 +37,10 @@ public class Context {
         return stack.elementAt(stack.size()-index);
     }
 
-    public Context(Function rootFunction){
-        rootLayer = new Memory(rootFunction);
-        currentLayer = rootLayer;
-        currentLayer.opAddress = 0;//指向第一行字节码
+    public Context(){ //Function rootFunction
+        rootLayer = new Memory();
+        currentLayer = null;
+//        currentLayer.opAddress = -1;//最初始无代码
 
         //初始化常量类型原型类，只应该在rootLayer里做这件事
         rootLayer.put(Value.INT_SYMBOL ,Value.createClass("整数"));
@@ -54,6 +54,16 @@ public class Context {
         rootLayer.put(Value.FUNCTION_SYMBOL ,Value.createClass("函数"));
         rootLayer.put(Value.CLASS_SYMBOL ,Value.createClass("类定义"));
     }
+
+    boolean playFromRoot(Function function){
+        if (currentLayer!=null){
+            throw new RuntimeException("current layer not finished");
+        }
+        currentLayer = rootLayer;
+        currentLayer.setFunction(function);
+        return playNoLock(null);
+    }
+
 
     public void callFunction(Function function,ScriptInfo callScript,Symbol funcSymbol){
         if (funcSymbol==null){
@@ -76,6 +86,7 @@ public class Context {
     }
 
     public void returnFunction(){
+        currentLayer.clearFunction();
         currentLayer = currentLayer.parent;
         callDeep --;
     }
@@ -87,15 +98,14 @@ public class Context {
     AsyncTicket ticket = null;
 
     //true 表示中断在某处，false则正常结束
-    public boolean playNoLock(Memory quitLayer){
+    boolean playNoLock(Memory quitLayer){
         if (ticket==null) {
             ticket = new AsyncTicket(this);//可以标志为正在执行状态，如果变成null就是执行完成状态了
         }
         do{
             OPCode code = currentLayer.nextOPCode();
             if(code==null){
-                //非return，执行到尽头了
-                //插入一个null值强制返回
+                //非return，执行到尽头了，强制返回
                 if (currentLayer.forceReturnThisPoint){
                     push(currentLayer.thisPoint);
                 }else {

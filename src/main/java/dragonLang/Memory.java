@@ -10,7 +10,7 @@ import java.util.Stack;
  */
 public class Memory {
     final Map<Symbol,Value> values = new HashMap<>();
-    final Function function;
+    Function function;
     final Memory parent;
     final ScriptInfo callScript;
     final String callFuncName;
@@ -67,11 +67,31 @@ public class Memory {
         this.callScript = callScript;
         this.callFuncName = callFuncName;
     }
-    Memory(Function function){
-        this.function = function;
+    Memory(){ //Function function
+        this.function = null;
         this.parent = null;
         this.callScript = null;
-        this.callFuncName = null;
+        this.callFuncName = "根脚本";
+    }
+
+    /**
+     * 用于从根节点加载复数代码
+     * @param function
+     */
+    void setFunction(Function function){
+        if (this.function!=null){
+            throw new RuntimeException("function not finished");
+        }
+        this.function = function;
+        this.opAddress = 0;
+    }
+
+    /**
+     * 用于返回时清空
+     */
+    void clearFunction(){
+        this.function = null;
+        this.opAddress = -1;
     }
 
     public void printCallStack(){

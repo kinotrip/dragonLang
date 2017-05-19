@@ -1,11 +1,17 @@
 package dragonLang;
 
+import dragonLang.generated.DragonLangLexer;
 import dragonLang.generated.DragonLangParser;
 import dragonLang.opcode.ASSIGN;
 import dragonLang.opcode.POP;
 import dragonLang.opcode.PUSH;
 import dragonLang.opcode.SET_PARAM;
+import org.antlr.v4.runtime.CharStream;
+import org.antlr.v4.runtime.CharStreams;
+import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.ParserRuleContext;
+import org.antlr.v4.runtime.tree.ParseTree;
+import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,6 +63,28 @@ public class Function {
 
     public void removeLastOP(){
         opcodeList.remove(opcodeList.size()-1);
+    }
+
+
+    static public Function fromScriptContent(String scriptName, String content){
+
+        CharStream codeStream = CharStreams.fromString(content);
+
+        DragonLangLexer lexer = new DragonLangLexer(codeStream);
+        lexer.removeErrorListeners();
+        lexer.addErrorListener(ThrowingErrorListener.INSTANCE);
+
+        CommonTokenStream tokens = new CommonTokenStream(lexer);
+        DragonLangParser parser = new DragonLangParser(tokens);
+        parser.removeErrorListeners();
+        parser.addErrorListener(ThrowingErrorListener.INSTANCE);
+
+        Compiler compiler = new Compiler(scriptName);
+        ParseTree tree = parser.start();
+        ParseTreeWalker walker = new ParseTreeWalker();
+        walker.walk(compiler, tree);
+
+        return compiler.getFunction();
     }
 
 }
