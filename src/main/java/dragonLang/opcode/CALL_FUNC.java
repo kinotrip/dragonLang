@@ -115,6 +115,12 @@ public class CALL_FUNC extends OPCode {
             }
             //弹出类定义本身
             context.pop();
+
+            //弹出箭头函数初值
+            if (isArrowCall){
+                context.pop();
+            }
+
             //压入类实例
             context.push(instanceValue);
 //            System.out.println("新建类实例");
@@ -132,8 +138,17 @@ public class CALL_FUNC extends OPCode {
                 //System.out.println(p.debugInfo());
                 context.currentLayer().params.push(p);
             }
+
             //弹出类定义
             context.pop();
+
+            //压入箭头函数初值
+            if (isArrowCall){
+                Value p = context.pop();
+                //System.out.println(p.debugInfo());
+                context.currentLayer().params.push(p);
+            }
+
             //设置this指针，并强制返回this指针
             context.currentLayer().thisPoint = instanceValue;
             context.currentLayer().forceReturnThisPoint = true;
