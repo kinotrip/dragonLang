@@ -23,6 +23,8 @@ public class CompileProperty {
     static public final String LOOP_BODY_JUMP = "LOOP_BODY_JUMP";
     static public final String LOOP_JUMP_OPCODE = "LOOP_JUMP_OPCODE";
 
+    static public final String IS_ARROW_CALL = "IS_ARROW_CALL";
+
     final Map<ParserRuleContext,Map<String,Object>> contextMap = new HashMap<>();
 
     public void set(ParserRuleContext ctx,String symbol){

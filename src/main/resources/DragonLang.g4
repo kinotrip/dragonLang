@@ -11,6 +11,7 @@ line : expr                       #lineExpr
       |CONTINUE                    #lineContinue
       |BREAK                  #lineBreak
       |(var  EQUAL )? var COLON (expr (COMMA expr)*)? #lineRawCall
+      |(var  EQUAL )? expr arrowPart+   #lineArrow
       ;
 
 loopInit : expr;
@@ -20,6 +21,8 @@ loopBlock : blockInKH;
 
 callParam : RT* COMMA RT* expr;
 callBody : BRACKET_LEFT RT* (expr callParam*)? RT* BRACKET_RIGHT ;
+
+arrowPart : ARROW var callBody? ;
 
 expr : var                          #exprVar
     | object                        #exprObject
@@ -97,6 +100,8 @@ LOOP : 'for' | '循环';
 CONTINUE : 'continue' | '跳过' ;
 BREAK : 'break' | '中断' ;
 
+ARROW : GREATER_THAN GREATER_THAN | '》' ;
+
 GREATER_EQUAL : GREATER_THAN EQUAL;
 LESS_EQUAL : LESS_THAN EQUAL;
 EQUAL_EQUAL : EQUAL EQUAL;
@@ -109,8 +114,9 @@ MINUS_ASSIGN : MINUS_SIGN EQUAL ;
 MINUS_ONE : MINUS_SIGN MINUS_SIGN ;
 
 WORD : STARTCHAR NORMALCHAR* ;
-fragment STARTCHAR :  ~[ \t\r\n\u000C+-/*%&|!=:;\u002e\u002c(){}<>\u005B\u005D"@$＋－×÷％＆｜！＝：；。，（）｛｝［］【】﹤﹥＜＞“”＠￥0-9] ;
-fragment NORMALCHAR : ~[ \t\r\n\u000C+-/*%&|!=:;\u002e\u002c(){}<>\u005B\u005D"@$＋－×÷％＆｜！＝：；。，（）｛｝［］【】﹤﹥＜＞“”＠￥] ;
+fragment STARTCHAR :  ~[ \t\r\n\u000C+-/*%&|!=:;\u002e\u002c(){}<>\u005B\u005D"@$＋－×÷％＆｜！＝：；。，（）｛｝［］【】《》﹤﹥＜＞“”＠￥0-9] ;
+fragment NORMALCHAR : ~[ \t\r\n\u000C+-/*%&|!=:;\u002e\u002c(){}<>\u005B\u005D"@$＋－×÷％＆｜！＝：；。，（）｛｝［］【】《》﹤﹥＜＞“”＠￥] ;
+
 
 
 GREATER_THAN : '>' | '﹥' | '＞' ;

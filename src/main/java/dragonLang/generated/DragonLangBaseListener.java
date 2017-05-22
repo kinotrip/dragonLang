@@ -136,6 +136,18 @@ public class DragonLangBaseListener implements DragonLangListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterLineArrow(DragonLangParser.LineArrowContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitLineArrow(DragonLangParser.LineArrowContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterLoopInit(DragonLangParser.LoopInitContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -203,6 +215,18 @@ public class DragonLangBaseListener implements DragonLangListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitCallBody(DragonLangParser.CallBodyContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterArrowPart(DragonLangParser.ArrowPartContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitArrowPart(DragonLangParser.ArrowPartContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

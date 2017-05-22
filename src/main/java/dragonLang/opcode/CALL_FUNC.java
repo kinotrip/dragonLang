@@ -10,6 +10,13 @@ import java.util.Map;
  * Created by Administrator on 2017/4/23.
  */
 public class CALL_FUNC extends OPCode {
+
+    final boolean isArrowCall;
+    public CALL_FUNC(boolean isArrowCall){
+        this.isArrowCall = isArrowCall;
+    }
+
+
     @Override
     public boolean process(Context context) {
         //目前从栈顶开始：参数个数，若干参数，函数/类定义
@@ -35,6 +42,12 @@ public class CALL_FUNC extends OPCode {
             //弹出函数本身
             context.pop();
 
+            //箭头函数弹出第一个参数
+            if (isArrowCall){
+                Value p = context.pop();
+                context.currentLayer().params.push(p);
+            }
+
             //设置this指针，如果有的话
             context.currentLayer().thisPoint = functionValue.getFunctionValue().thisPoint;
 
@@ -56,6 +69,11 @@ public class CALL_FUNC extends OPCode {
 
         //弹出函数本体
         context.pop();
+
+        //箭头函数弹出第一个参数
+        if (isArrowCall){
+            params.add(0,context.pop());
+        }
 
         Value result = nativeFunction.process(params,null,context,script);
         if (result!=null){

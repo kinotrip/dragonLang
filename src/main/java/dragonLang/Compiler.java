@@ -144,11 +144,44 @@ public class Compiler  implements DragonLangListener {
     @Override
     public void exitLineRawCall(DragonLangParser.LineRawCallContext ctx) {
         add(new PUSH(Value.create(sizeOrZero(ctx.expr()))),ctx);//参数个数
-        add(new CALL_FUNC(),ctx);
+        add(new CALL_FUNC(false),ctx);
         if (ctx.var().size()>1) {
             add(new ASSIGN(false,false),ctx);
         }
         add(new POP(),ctx);
+    }
+
+    //箭头函数调用
+    @Override
+    public void enterLineArrow(DragonLangParser.LineArrowContext ctx) {
+        if (ctx.var()!=null) {
+            property.set(ctx.var(), ASSIGN_VAR);
+        }
+    }
+    @Override
+    public void exitLineArrow(DragonLangParser.LineArrowContext ctx) {
+        if (ctx.var()!=null) {
+            add(new ASSIGN(false,false),ctx);
+        }
+        add(new POP(),ctx);//每一行结尾弹出本行当前值
+    }
+
+
+    @Override
+    public void enterArrowPart(DragonLangParser.ArrowPartContext ctx) {
+        if (ctx.callBody()!=null){
+            property.set(ctx.callBody(),IS_ARROW_CALL);
+        }
+    }
+
+    @Override
+    public void exitArrowPart(DragonLangParser.ArrowPartContext ctx) {
+        if (ctx.callBody()==null){
+            //无参数箭头调用函数
+            add(new PUSH(Value.create(0)),ctx);
+            //然后进行调用
+            add(new CALL_FUNC(true),ctx);
+        }
     }
 
 
@@ -219,7 +252,7 @@ public class Compiler  implements DragonLangListener {
         int paramCount = (ctx.expr()==null)?0:1 + sizeOrZero(ctx.callParam());
         add(new PUSH(Value.create(paramCount)),ctx);
         //然后进行调用
-        add(new CALL_FUNC(),ctx);
+        add(new CALL_FUNC(property.getBoolean(ctx,IS_ARROW_CALL)),ctx);
     }
 
     /////////////////////////////////////////////////

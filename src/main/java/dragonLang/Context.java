@@ -24,9 +24,11 @@ public class Context {
     }
 
     public void printStack(){
+        System.out.println("====栈====");
         for(int i=stack.size()-1;i>=0;i--){
             System.out.println(stack.elementAt(i));
         }
+        System.out.println("==========");
     }
     /**
      * 1 is the first

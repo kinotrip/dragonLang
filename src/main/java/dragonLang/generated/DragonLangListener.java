@@ -126,6 +126,18 @@ public interface DragonLangListener extends ParseTreeListener {
 	 */
 	void exitLineRawCall(DragonLangParser.LineRawCallContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code lineArrow}
+	 * labeled alternative in {@link DragonLangParser#line}.
+	 * @param ctx the parse tree
+	 */
+	void enterLineArrow(DragonLangParser.LineArrowContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code lineArrow}
+	 * labeled alternative in {@link DragonLangParser#line}.
+	 * @param ctx the parse tree
+	 */
+	void exitLineArrow(DragonLangParser.LineArrowContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link DragonLangParser#loopInit}.
 	 * @param ctx the parse tree
 	 */
@@ -185,6 +197,16 @@ public interface DragonLangListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitCallBody(DragonLangParser.CallBodyContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link DragonLangParser#arrowPart}.
+	 * @param ctx the parse tree
+	 */
+	void enterArrowPart(DragonLangParser.ArrowPartContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link DragonLangParser#arrowPart}.
+	 * @param ctx the parse tree
+	 */
+	void exitArrowPart(DragonLangParser.ArrowPartContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code exprAndSub}
 	 * labeled alternative in {@link DragonLangParser#expr}.
