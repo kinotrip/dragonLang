@@ -109,8 +109,8 @@ MINUS_ASSIGN : MINUS_SIGN EQUAL ;
 MINUS_ONE : MINUS_SIGN MINUS_SIGN ;
 
 WORD : STARTCHAR NORMALCHAR* ;
-fragment STARTCHAR :  ~[ \t\r\n\u000C+-/*%&|!=:;\u002e\u002c(){}<>\u005B\u005D"@$＋－×÷％＆｜！＝：；。，（）｛｝［］﹤﹥＜＞“”＠￥0-9] ;
-fragment NORMALCHAR : ~[ \t\r\n\u000C+-/*%&|!=:;\u002e\u002c(){}<>\u005B\u005D"@$＋－×÷％＆｜！＝：；。，（）｛｝［］﹤﹥＜＞“”＠￥] ;
+fragment STARTCHAR :  ~[ \t\r\n\u000C+-/*%&|!=:;\u002e\u002c(){}<>\u005B\u005D"@$＋－×÷％＆｜！＝：；。，（）｛｝［］【】﹤﹥＜＞“”＠￥0-9] ;
+fragment NORMALCHAR : ~[ \t\r\n\u000C+-/*%&|!=:;\u002e\u002c(){}<>\u005B\u005D"@$＋－×÷％＆｜！＝：；。，（）｛｝［］【】﹤﹥＜＞“”＠￥] ;
 
 
 GREATER_THAN : '>' | '﹥' | '＞' ;
@@ -132,8 +132,8 @@ BRACKET_LEFT : '(' | '（' ;
 BRACKET_RIGHT: ')' | '）' ;
 BRACE_LEFT   : '{' | '｛';
 BRACE_RIGHT  : '}' | '｝';
-SQUARE_LEFT  : '[' | '［';
-SQUARE_RIGHT : ']' | '］';
+SQUARE_LEFT  : '[' | '［' | '【';
+SQUARE_RIGHT : ']' | '］' | '】';
 QUOTATION_LEFT  : '“' | '"';
 QUOTATION_RIGHT : '”' | '"';
 AT_SIGN         : '@' | '＠';

@@ -34,7 +34,7 @@ public class MIX_IN extends OPCode {
         for(Map.Entry<Symbol,Value> e : baseClass.getObjectValue().entrySet()){
             Symbol symbol = e.getKey();
             if (currentObject.containsKey(symbol)){
-                symbol = Symbol.get(base.symbolName()+"_"+symbol.symbolName());
+                symbol = Symbol.get(base.symbolName()+symbol.symbolName());
             }
             currentObject.put(symbol,e.getValue().cloneIfArrayOrObject());
         }
