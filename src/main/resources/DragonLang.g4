@@ -81,8 +81,9 @@ NUMBER : [1-9][0-9]*
        |'0'
        | ([0-9]+[.][0-9]+) ;
 
-STRING : QUOTATION_LEFT ANYCHAR* QUOTATION_RIGHT | AT_SIGN WORD;
-fragment ANYCHAR : ~[ \r\n”"] ;
+STRING : '"' ANYCHAR1* '"' | '“' ANYCHAR2* '”' | AT_SIGN WORD;
+fragment ANYCHAR1 : ~[\r\n"] ;
+fragment ANYCHAR2 : ~[\r\n“”] ;
 
 NULL: 'null' | '空';
 IF : 'if' | '如果';
