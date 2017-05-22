@@ -55,7 +55,7 @@ public class Context {
         rootLayer.put(Value.CLASS_SYMBOL ,Value.createClass("类定义"));
     }
 
-    boolean playFromRoot(Function function){
+    public boolean playFromRoot(Function function){
         if (currentLayer!=null){
             throw new RuntimeException("current layer not finished");
         }
