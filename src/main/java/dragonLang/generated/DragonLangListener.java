@@ -520,6 +520,18 @@ public interface DragonLangListener extends ParseTreeListener {
 	 */
 	void exitExprPlusOne(DragonLangParser.ExprPlusOneContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code exprAndGetter}
+	 * labeled alternative in {@link DragonLangParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void enterExprAndGetter(DragonLangParser.ExprAndGetterContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code exprAndGetter}
+	 * labeled alternative in {@link DragonLangParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void exitExprAndGetter(DragonLangParser.ExprAndGetterContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code exprString}
 	 * labeled alternative in {@link DragonLangParser#expr}.
 	 * @param ctx the parse tree

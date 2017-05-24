@@ -331,6 +331,9 @@ public class Compiler  implements DragonLangListener {
     @Override public void enterExprVar(DragonLangParser.ExprVarContext ctx) { }
     @Override public void exitExprVar(DragonLangParser.ExprVarContext ctx) { }
 
+    @Override public void enterExprAndGetter(DragonLangParser.ExprAndGetterContext ctx) {}
+    @Override public void exitExprAndGetter(DragonLangParser.ExprAndGetterContext ctx) {}
+
     @Override
     public void enterExprAssign(DragonLangParser.ExprAssignContext ctx) {
         //在IF表达式里屏蔽赋值语句
@@ -623,6 +626,8 @@ public class Compiler  implements DragonLangListener {
         add(new ADD(),ctx);
         add(new ASSIGN(false,false),ctx);
     }
+
+
     @Override
     public void enterExprMinusOne(DragonLangParser.ExprMinusOneContext ctx) {
         property.set(ctx.var(),ASSIGN_VAR_LOAD);

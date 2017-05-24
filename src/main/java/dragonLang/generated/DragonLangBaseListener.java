@@ -544,6 +544,18 @@ public class DragonLangBaseListener implements DragonLangListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterExprAndGetter(DragonLangParser.ExprAndGetterContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitExprAndGetter(DragonLangParser.ExprAndGetterContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterExprString(DragonLangParser.ExprStringContext ctx) { }
 	/**
 	 * {@inheritDoc}

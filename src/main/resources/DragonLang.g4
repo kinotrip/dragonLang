@@ -53,6 +53,7 @@ expr : var                          #exprVar
     | var  MINUS_ASSIGN RT* expr    #exprSubtractAssign
     | BRACKET_LEFT RT* expr RT* BRACKET_RIGHT #exprBracket
     | expr otherExpr  #exprAndSub
+    | expr varGetter+ #exprAndGetter
      ;
 
 otherExpr : VERTICAL_BAR expr;
