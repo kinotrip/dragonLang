@@ -235,6 +235,10 @@ public class Value {
                 left = '{';
                 right = '}';
                 Map<Symbol,Value> map = (Map<Symbol,Value>)object;
+                Value prototype = map.get(Symbol.prototype);
+                if (prototype!=null){
+                    typeName = prototype.getName().name;
+                }
                 if (shortString) {
                     valueStr = map.size() + "成员";
                 }

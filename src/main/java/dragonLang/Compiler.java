@@ -8,6 +8,7 @@ import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.tree.ErrorNode;
 import org.antlr.v4.runtime.tree.TerminalNode;
+import sun.jvm.hotspot.debugger.cdbg.Sym;
 
 import java.util.HashSet;
 import java.util.List;
@@ -227,6 +228,10 @@ public class Compiler  implements DragonLangListener {
             Function defaultExpr = new Function();
             executableStack.push(defaultExpr);
         }
+        String name = ctx.WORD().getText();
+        if (name.equals(Symbol.self.name)||(name.equals(Symbol.self2.name))){
+            script(ctx).throwException("不可使用“自我”或者“self”作参数名！");
+        }
     }
 
     @Override
@@ -416,7 +421,11 @@ public class Compiler  implements DragonLangListener {
 
     @Override
     public void enterPair(DragonLangParser.PairContext ctx) {
-        add(new PUSH(Value.createSymbol(ctx.WORD().getText())),ctx);
+        String name = ctx.WORD().getText();
+        if (name.equals(Symbol.self.name)||name.equals(Symbol.self2.name)){
+            script(ctx).throwException("不可使用“自我”或“self”作字段名！");
+        }
+        add(new PUSH(Value.createSymbol(name)),ctx);
     }
 
     @Override
