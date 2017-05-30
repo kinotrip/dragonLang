@@ -106,7 +106,7 @@ public class CALL_FUNC extends OPCode {
 
         for(Map.Entry<Symbol,Value> e : clazz.entrySet()){
             if (e.getValue().getType() != Value.FUNCTION ){
-                instance.put(e.getKey(),e.getValue().cloneIfArrayOrObject());
+                instance.put(e.getKey(),context.cloneValue(e.getValue(),script));
             }
         }
         if (initFunction == null){

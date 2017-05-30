@@ -8,7 +8,6 @@ import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.tree.ErrorNode;
 import org.antlr.v4.runtime.tree.TerminalNode;
-import sun.jvm.hotspot.debugger.cdbg.Sym;
 
 import java.util.HashSet;
 import java.util.List;

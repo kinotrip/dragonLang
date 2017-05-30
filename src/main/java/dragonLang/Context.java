@@ -1,6 +1,8 @@
 package dragonLang;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Stack;
 
 /**
@@ -247,6 +249,30 @@ public class Context {
         getPrototypeClass(Value.ARRAY).getObjectValue().put(symbol,function);
         getPrototypeClass(Value.CLASS).getObjectValue().put(symbol,function);
         getPrototypeClass(Value.FUNCTION).getObjectValue().put(symbol,function);
+    }
+
+    public Value cloneValue(Value origin,ScriptInfo scriptInfo){
+        Value result = origin.cloneIfArrayOrObject();
+        if (result.getType()==Value.OBJECT){
+            HashMap<Symbol,Value> m = origin.getObjectValue();
+            //执行克隆
+            Value prototype = m.get(Symbol.prototype);
+            Map<Symbol,Value> p = prototype.getObjectValue();
+            Value cloneFunc = p.get(Symbol.clone);
+            if (cloneFunc==null){
+                cloneFunc = p.get(Symbol.clone2);
+            }
+            if (cloneFunc==null){
+                cloneFunc = m.get(Symbol.clone);
+            }
+            if (cloneFunc==null){
+                cloneFunc = m.get(Symbol.clone2);
+            }
+            if ((cloneFunc!=null)&&(cloneFunc.getType() == Value.FUNCTION)){
+                callFunctionFromNative(cloneFunc,null,origin,scriptInfo);
+            }
+        }
+        return result;
     }
 
 }

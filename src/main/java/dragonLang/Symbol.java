@@ -21,6 +21,9 @@ public class Symbol {
     public  final static Symbol self = Symbol.get("self");
     public  final static Symbol self2 = Symbol.get("自我");
 
+    public  final static Symbol clone = Symbol.get("克隆");
+    public  final static Symbol clone2 = Symbol.get("clone");
+
     public static Symbol get(String name){
         if (name==null){
             throw new RuntimeException("Symbol不可以空值为名");
