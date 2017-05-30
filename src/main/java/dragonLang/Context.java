@@ -1,9 +1,6 @@
 package dragonLang;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Stack;
+import java.util.*;
 
 /**
  * Created by Administrator on 2017/4/22.
@@ -252,27 +249,43 @@ public class Context {
     }
 
     public Value cloneValue(Value origin,ScriptInfo scriptInfo){
-        Value result = origin.cloneIfArrayOrObject();
-        if (result.getType()==Value.OBJECT){
-            HashMap<Symbol,Value> m = origin.getObjectValue();
-            //执行克隆
-            Value prototype = m.get(Symbol.prototype);
-            Map<Symbol,Value> p = prototype.getObjectValue();
-            Value cloneFunc = p.get(Symbol.clone);
-            if (cloneFunc==null){
-                cloneFunc = p.get(Symbol.clone2);
+        if (origin.type == Value.ARRAY){
+            List<Value> list = origin.getArrayValue();
+            Value newInstance = Value.createArray();
+            for(Value v : list){
+                newInstance.getArrayValue().add(cloneValue(v,scriptInfo));
             }
-            if (cloneFunc==null){
-                cloneFunc = m.get(Symbol.clone);
+            return newInstance;
+        }else if (origin.type== Value.OBJECT){
+            Map<Symbol,Value> m = origin.getObjectValue();
+            Value newInstance = Value.createObject();
+            for(Map.Entry<Symbol,Value> e : m.entrySet()){
+                newInstance.getObjectValue().put(e.getKey(),cloneValue(e.getValue(),scriptInfo));
             }
-            if (cloneFunc==null){
-                cloneFunc = m.get(Symbol.clone2);
+            newInstance.setName(origin.name);
+            if (newInstance.getType()==Value.OBJECT){
+                //换成新对象
+                m = newInstance.getObjectValue();
+                //寻找克隆方法
+                Value prototype = m.get(Symbol.prototype);
+                Map<Symbol,Value> p = prototype.getObjectValue();
+                Value cloneFunc = p.get(Symbol.clone);
+                if (cloneFunc==null){
+                    cloneFunc = p.get(Symbol.clone2);
+                }
+                if (cloneFunc==null){
+                    cloneFunc = m.get(Symbol.clone);
+                }
+                if (cloneFunc==null){
+                    cloneFunc = m.get(Symbol.clone2);
+                }
+                if ((cloneFunc!=null)&&(cloneFunc.getType() == Value.FUNCTION)){
+                    callFunctionFromNative(cloneFunc,null,newInstance,scriptInfo);
+                }
             }
-            if ((cloneFunc!=null)&&(cloneFunc.getType() == Value.FUNCTION)){
-                callFunctionFromNative(cloneFunc,null,origin,scriptInfo);
-            }
-        }
-        return result;
+            return newInstance;
+        }else return origin;
     }
+
 
 }
